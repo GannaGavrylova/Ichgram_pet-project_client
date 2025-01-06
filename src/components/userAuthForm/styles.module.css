@@ -1,0 +1,62 @@
+.containerLogForm,
+.signUp {
+  border: 1px solid #dbdbdb;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 1px;
+}
+header > img {
+  margin-top: 35px;
+}
+.inputsForm {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+.input {
+  width: 268px;
+  height: 38px;
+  border-radius: 3px;
+  border: 1px solid #dbdbdb;
+  padding-left: 10px;
+  color: #737373;
+}
+.input:focus {
+  border: 1px solid #bbbdbf;
+  box-shadow: 0px 4px 12px rgba(125, 95, 231, 0.3);
+  outline: none;
+}
+.or {
+  display: flex;
+  padding: 18px;
+}
+
+.or > hr {
+  flex: 1;
+  border: none;
+  border-top: 1px solid #dbdbdb;
+  margin: 20px 18px;
+  color: #dbdbdb;
+}
+.or > h3 {
+  margin: 8px 18px;
+  color: #737373;
+}
+.forgotPassword > a {
+  color: #00376b;
+}
+.forgotPassword > a > p {
+  margin: 69px 0 23px;
+}
+
+.signUp {
+  margin-top: 10px;
+  padding: 11px 59px;
+}
+a {
+  cursor: pointer;
+}
+Button:focus {
+  outline: none;
+}
