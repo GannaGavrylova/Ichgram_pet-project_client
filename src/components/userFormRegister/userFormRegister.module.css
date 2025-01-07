@@ -1,0 +1,66 @@
+.userRegisterContainer {
+  /* border: 3px solid yellow; */
+  max-width: 400px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+
+  /* margin-left: 40px;
+  margin-right: 40px; */
+}
+.formContainer {
+  border: 2px solid #dbdbdb;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header > img {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50px;
+  margin: 0;
+}
+.headerTitle {
+  margin: 85px 20px 36px;
+  font-size: 20px;
+  line-height: 20px;
+  color: #737373;
+}
+
+.formContainer > div > input {
+  width: 268px;
+  height: 38px;
+  border-radius: 3px;
+  border: 1px solid #dbdbdb;
+  padding-left: 10px;
+  color: #737373;
+  margin-bottom: 6px;
+}
+
+.cookie > p {
+  margin: 0;
+  padding: 26px 39px 0 41px;
+  font-size: 12px;
+  color: #737373;
+  line-height: 16px;
+}
+
+.cookie > p:last-child {
+  padding-top: 6px;
+  padding-bottom: 29px;
+}
+
+.questionContainer {
+  border: 2px solid #dbdbdb;
+  margin-top: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+}
+.question {
+  font-size: 14px;
+  line-height: 18px;
+  padding: 26px 95px;
+}

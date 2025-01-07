@@ -19,14 +19,15 @@ function UserAuthForm() {
         "http://localhost:3000/auth/login",
         data
       );
+      console.log(data);
       if (response.status === 200) {
-        alert(`Welcome, ${response.data.user}!`);
+        alert(`Welcome, ${response.data.username}!`);
       }
     } catch (error) {
       if (error.response) {
         alert(error.response.data.message);
       } else {
-        console.error("Error: Login", error);
+        console.error("Error: Login", error.response);
         alert("Something went wrong. Please try again later.");
       }
     }
@@ -46,10 +47,6 @@ function UserAuthForm() {
               placeholder="Username, or email"
               {...register("usernameOrEmail", {
                 required: "Username or Email is required",
-                // pattern: {
-                //   value: /^[^@]+@[^@]+\.[^@]+|^[a-zA-Z0-9_]{3,}$/,
-                //   message: "Invalid username or email format",
-                // },
               })}
             />
             {errors.usernameOrEmail && (
@@ -71,7 +68,9 @@ function UserAuthForm() {
             )}
           </div>
 
-          <Button type="primary">Log in</Button>
+          <Button type="primary" htmlType="submit">
+            Log in
+          </Button>
         </form>
 
         <div className={styles.or}>
