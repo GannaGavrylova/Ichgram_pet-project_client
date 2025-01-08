@@ -1,19 +1,16 @@
 .userRegisterContainer {
-  /* border: 3px solid yellow; */
-  max-width: 400px;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 6px;
-
-  /* margin-left: 40px;
-  margin-right: 40px; */
 }
-.formContainer {
-  border: 2px solid #dbdbdb;
+.userRegisterContainer,
+.questionContainer {
+  border: 1px solid #dbdbdb;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
 }
 
 .header > img {
@@ -54,10 +51,7 @@
 }
 
 .questionContainer {
-  border: 2px solid #dbdbdb;
   margin-top: 15px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  width: 400px;
 }
 .question {
   font-size: 14px;
