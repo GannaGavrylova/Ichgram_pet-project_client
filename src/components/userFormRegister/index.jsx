@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-
+import { Link } from "react-router-dom";
 import { Button } from "antd";
 import axios from "axios";
 import styles from "./userFormRegister.module.css";
@@ -140,7 +140,10 @@ function UserFormRegister() {
       </div>
       <div className={styles.questionContainer}>
         <h3 className={styles.question}>
-          Have an account? <a href="#">Log in</a>
+          Have an account?{" "}
+          <Link to={"/auth/login"} style={{ color: "blue" }}>
+            Log in
+          </Link>
         </h3>
       </div>
     </>

@@ -1,0 +1,66 @@
+.mainContainer {
+  display: flex;
+}
+.leftContainer {
+  width: 245px;
+  height: 1758px;
+  border-right: 1px solid #dbdbdb;
+  margin-left: 25px;
+}
+.headerImg {
+  width: 97px;
+  height: 55px;
+  margin-top: 28px;
+}
+.customList {
+  list-style: none;
+  padding-left: 0;
+}
+
+.customList > li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 30px;
+}
+.customList > li:last-child {
+  margin-top: 47px;
+}
+
+.customList > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.customList > li.home::before {
+  background-image: url("../../assets/home.svg");
+}
+
+.customList > li.search::before {
+  background-image: url("../../assets/search.svg");
+}
+
+.customList > li.explore::before {
+  background-image: url("../../assets/explore.svg");
+}
+.customList > li.messages::before {
+  background-image: url("../../assets/messages.svg");
+}
+
+.customList > li.notifications::before {
+  background-image: url("../../assets/notifications.svg");
+}
+
+.customList > li.create::before {
+  background-image: url("../../assets/create.svg");
+}
+
+.customList > li.profile::before {
+  background-image: url("../../assets/profile.svg");
+}

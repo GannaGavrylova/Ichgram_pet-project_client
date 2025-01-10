@@ -4,6 +4,7 @@ import { Button } from "antd";
 import styles from "./styles.module.css";
 import header from "../../assets/header.svg";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function UserAuthForm() {
   const {
@@ -67,10 +68,11 @@ function UserAuthForm() {
               <p className={styles.error}>{errors.password.message}</p>
             )}
           </div>
-
-          <Button type="primary" htmlType="submit">
-            Log in
-          </Button>
+          <Link to={"/home"}>
+            <Button type="primary" htmlType="submit">
+              Log in
+            </Button>
+          </Link>
         </form>
 
         <div className={styles.or}>
@@ -87,7 +89,10 @@ function UserAuthForm() {
 
       <div className={styles.signUp}>
         <h3>
-          Don't have an account? <a>Sign up</a>
+          Don't have an account?{" "}
+          <Link to={"/auth/register"} style={{ color: "blue" }}>
+            Sign up
+          </Link>
         </h3>
       </div>
     </>
