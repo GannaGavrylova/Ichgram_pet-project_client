@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form";
 import { Button } from "antd";
 import styles from "./styles.module.css";
 import header from "../../assets/header.svg";
-import axios from "axios";
+// import axios from "axios";
 import { Link } from "react-router-dom";
+import API from "../../utils/app";
 
-function UserAuthForm() {
+function UserLoginForm() {
   const {
     register,
     handleSubmit,
@@ -16,11 +17,16 @@ function UserAuthForm() {
   const onSubmit = async (data) => {
     try {
       console.log("Form Submitted: ", data);
-      const response = await axios.post(
-        "http://localhost:3000/auth/login",
-        data
-      );
-      console.log(data);
+      const response = await API.post("/auth/login", data).then((response) => {
+        const token = response.data.token;
+        if (token) {
+          localStorage.setItem("token", token);
+          console.log("Token saved", token);
+        } else {
+          console.error("Token is missing in the response");
+        }
+      });
+      console.log("UserData: data ", data);
       if (response.status === 200) {
         alert(`Welcome, ${response.data.username}!`);
       }
@@ -68,11 +74,11 @@ function UserAuthForm() {
               <p className={styles.error}>{errors.password.message}</p>
             )}
           </div>
-          <Link to={"/home"}>
-            <Button type="primary" htmlType="submit">
-              Log in
-            </Button>
-          </Link>
+          {/* <Link to={"/home"}> */}
+          <Button type="primary" htmlType="submit">
+            Log in
+          </Button>
+          {/* </Link> */}
         </form>
 
         <div className={styles.or}>
@@ -99,4 +105,4 @@ function UserAuthForm() {
   );
 }
 
-export default UserAuthForm;
+export default UserLoginForm;

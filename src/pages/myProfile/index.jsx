@@ -1,17 +1,14 @@
 import link_icon from "../../assets/link_icon.svg";
 import { useState, useEffect } from "react";
-import axios from "axios";
-// import { UserContext } from "../../context/UserContext";
 import PhotoProfile from "../../assets/images/PhotoProfile.png";
 import { useParams } from "react-router-dom";
-
-// const URL = "http://localhost:3000/users/:id";
+import API from "../../utils/app.js";
+import styles from "./myProfile.module.css";
+import NavMenu from "../navMenu/index.jsx";
 
 function MyProfile() {
   const [userData, setUserData] = useState(null); //Данные пользователя
   const [posts, setPosts] = useState([]); // Посты пользователя
-  //   const { userId } = useContext(UserContext);
-  // const { userId } = "677f993c76339da23959f584";
   const { id } = useParams();
   console.log("user id from route params:", id);
   useEffect(() => {
@@ -19,22 +16,24 @@ function MyProfile() {
       console.error("User ID is not available.");
       return;
     }
-
     // Получение данных пользователя
-    axios
-      .get(`http://localhost:3000/users/${id}`)
+    API.get(`/users/${id}`)
       .then((response) => {
-        setUserData(response.data);
-        console.log(response.data);
+        if (
+          response.data &&
+          response.data.data &&
+          response.data.data.length > 0
+        ) {
+          setUserData(response.data.data[0]);
+          console.log(response.data.data[0]);
+        }
       })
       .catch((error) => {
         console.error("Ошибка при загрузке данных пользователя:", error);
       });
 
     // Получение данных пользователя
-
-    axios
-      .get(`http://localhost:3000/users/${id}/posts`)
+    API.get(`/users/${id}/posts`)
       .then((response) => {
         setPosts(response.data);
       })
@@ -46,113 +45,102 @@ function MyProfile() {
   if (!id) {
     return <p>Error: User ID is not available</p>;
   }
+
   return (
-    <div style={{ padding: "20px" }}>
-      <div
-        style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}
-      >
-        <img
-          src={userData?.profileImage || PhotoProfile}
-          alt={`${userData?.username}`}
-          style={{
-            width: "100%",
-            height: "100px",
-            borderRadius: "50%",
-            objectFit: "cover",
-            marginRight: "20px",
-          }}
-        />
-        <div>
-          <h3>
-            {userData?.fullname}
-            name
-          </h3>
-          <button
+    <div style={{ display: "flex" }}>
+      <NavMenu />
+      <div className={styles.profileMainContainer} style={{ padding: "20px" }}>
+        <div className={styles.avatar}>
+          <img
+            src={userData?.profileImage || PhotoProfile}
+            alt={userData?.username || "Profile"}
             style={{
-              padding: "10px 20px",
-              backgroundColor: "#0095f6",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
+              width: "150px",
+              height: "150px",
+              borderRadius: "50%",
+              objectFit: "cover",
             }}
-          >
-            Edit profile
-          </button>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "20px",
-          }}
-        >
-          <p>
-            <strong>
-              {" "}
-              post
-              {userData?.post_count}
-            </strong>
-          </p>
-          <p>
-            <strong>
-              {" "}
-              followers_count
-              {userData?.followers_count}
-            </strong>
-          </p>
-          <p>
-            <strong>
-              following_count
-              {userData?.following_count}
-            </strong>
-          </p>
-        </div>
-        <div style={{ marginBottom: "20px" }}>
-          <p>
-            bio
-            {userData?.bio}
-          </p>
-          <div>
-            <img
-              src={link_icon}
-              alt="Link_Icon"
-              style={{ marginRight: "5px" }}
-            />
-            <a href="bit.ly/3rpiIbh">bit.ly/3rpiIbh</a>
+          />
+
+          <div className={styles.dataUserAndPostsContainer}>
+            {/* 1 */}
+            <div className={styles.nameButtonContainer}>
+              <h3>{userData?.fullname || "No name provided"}</h3>
+              <button>Edit profile</button>
+            </div>
+            {/* 2 */}
+            <div
+              className={styles.postFollowContainer}
+              // style={{
+              //   display: "flex",
+              //   justifyContent: "space-between",
+              //   marginBottom: "20px",
+              // }}
+            >
+              <p className={styles.posts}>
+                <strong>{userData?.post_count || 129} posts</strong>
+              </p>
+              <p className={styles.followers}>
+                <strong>{userData?.followers_count || 9993} followers</strong>
+              </p>
+              <p className={styles.following}>
+                <strong>{userData?.following_count || 59} following</strong>
+              </p>
+            </div>
+            {/* 3 */}
+            <div
+              className={styles.bioContainer}
+              style={{ marginBottom: "20px" }}
+            >
+              <p className={styles.bio}>{userData?.bio || "No bio provided"}</p>
+            </div>
+            <div>
+              <a href="#" className={styles.link}>
+                <img src={link_icon} alt="Link_Icon" />
+                bit.ly/3rpiIbh
+              </a>
+            </div>
           </div>
         </div>
-        <div>
-          {" "}
-          Posts
-          {posts.map((post) => (
-            <div
-              key={post._id}
-              style={{
-                position: "relative",
-                border: "1px solid #ddd",
-                borderRadius: "5px",
-                overflow: "hidden",
-              }}
-            >
-              <img
-                src={post.images[0]}
-                alt={post.caption}
-                style={{ width: "100%", height: "200px", objectFit: "cover" }}
-              />
-              {/* <div
+        {/* POST */}
+        <div className={styles.postMainContainer}>
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <div
+                className={styles.posts}
+                key={post._id}
                 style={{
-                  position: "absolute",
-                  bottom: "10px",
-                  left: "10px",
-                  color: "white",
-                  backgroundColor: "rdba(0,0,0, 0.5",
-                  padding: " 5px",
+                  position: "relative",
+                  border: "1px solid #ddd",
                   borderRadius: "5px",
+                  overflow: "hidden",
                 }}
-              ></div> */}
-            </div>
-          ))}
+              >
+                <img
+                  src={post.images[0]}
+                  alt={post.caption}
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    objectFit: "cover",
+                  }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "10px",
+                    left: "10px",
+                    color: "white",
+                    backgroundColor: "rdba(0,0,0, 0.5",
+                    padding: " 5px",
+                    borderRadius: "5px",
+                  }}
+                ></div>
+              </div>
+            ))
+          ) : (
+            <p>No posts available</p>
+          )}
         </div>
       </div>
     </div>

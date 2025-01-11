@@ -1,11 +1,14 @@
 .mainContainer {
   display: flex;
+  width: 245px;
 }
 .leftContainer {
-  width: 245px;
-  height: 1758px;
+  /* width: 245px; */
+  min-height: 1758px;
   border-right: 1px solid #dbdbdb;
   margin-left: 25px;
+  padding-right: 80px;
+  /* border: 2px solid pink; */
 }
 .headerImg {
   width: 97px;
@@ -21,6 +24,7 @@
   position: relative;
   padding-left: 24px;
   margin-bottom: 30px;
+  text-align: start;
 }
 .customList > li:last-child {
   margin-top: 47px;
@@ -56,11 +60,20 @@
 .customList > li.notifications::before {
   background-image: url("../../assets/notifications.svg");
 }
-
+.customList > li.notifications.active {
+  color: black;
+  font-weight: 900;
+}
+.customList > li.notifications.active::before {
+  background-image: url("../../assets/likeBlack.svg");
+}
 .customList > li.create::before {
   background-image: url("../../assets/create.svg");
 }
 
 .customList > li.profile::before {
   background-image: url("../../assets/profile.svg");
+}
+.notificationsContainer {
+  transition: all 1.5s ease-out;
 }

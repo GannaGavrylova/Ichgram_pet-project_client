@@ -4,3 +4,81 @@
   border-radius: 50%;
   object-fit: cover;
 }
+.usersPages {
+  border: 2px solid blue;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 39px;
+  margin-left: 50px;
+}
+
+hr {
+  all: unset;
+  width: 5px;
+  height: 5px;
+  background-color: rgb(149, 144, 144);
+  border-radius: 50%;
+}
+.header {
+  display: flex;
+  border: 2px solid gold;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+}
+
+p,
+.header > img {
+  all: unset;
+  margin-right: 10px;
+}
+.header > button {
+  margin-left: 50px;
+  border: none;
+  background-color: rgb(229, 229, 244);
+  border-radius: 20px;
+  color: blue;
+}
+.header > h4 {
+  margin-right: 30px;
+  color: black;
+  font-weight: 900;
+}
+.header > p {
+  color: grey;
+  font-size: 12px;
+}
+
+.likesIkon > img:first-child {
+  margin-right: 10px;
+}
+
+.likesIkon > img {
+  margin-bottom: 10px;
+}
+
+.commentText {
+  display: flex;
+  flex-direction: column;
+}
+
+.downloadMore {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.downloadMore > button {
+  border: none;
+  background-color: white;
+}
+
+.downloadMore > h3,
+p {
+  margin-bottom: 10px;
+}
