@@ -26,10 +26,10 @@ function UserLoginForm() {
           console.error("Token is missing in the response");
         }
       });
-      console.log("UserData: data ", data);
-      if (response.status === 200) {
-        alert(`Welcome, ${response.data.username}!`);
-      }
+      // console.log("UserData: data ", data);
+      // if (response.status === 200) {
+      //   alert(`Welcome, ${response.data.username}!`);
+      // }
     } catch (error) {
       if (error.response) {
         alert(error.response.data.message);
@@ -74,11 +74,11 @@ function UserLoginForm() {
               <p className={styles.error}>{errors.password.message}</p>
             )}
           </div>
-          {/* <Link to={"/home"}> */}
-          <Button type="primary" htmlType="submit">
-            Log in
-          </Button>
-          {/* </Link> */}
+          <Link to={"/home"}>
+            <Button type="primary" htmlType="submit">
+              Log in
+            </Button>
+          </Link>
         </form>
 
         <div className={styles.or}>

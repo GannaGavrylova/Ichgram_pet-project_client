@@ -49,11 +49,12 @@ header > img {
 }
 .forgotPassword > a > p {
   margin: 69px 0 23px;
+  padding-bottom: 20px;
 }
 
 .signUp {
   margin-top: 10px;
-  /* padding: 11px 59px; */
+  padding: 20px 1px;
 }
 a {
   cursor: pointer;

@@ -74,6 +74,7 @@
 .customList > li.profile::before {
   background-image: url("../../assets/profile.svg");
 }
+
 .notificationsContainer {
   transition: all 1.5s ease-out;
 }

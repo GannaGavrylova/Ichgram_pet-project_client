@@ -4,6 +4,7 @@ import UserLoginForm from "./components/userLoginForm";
 import UserFormRegister from "./components/userFormRegister";
 import MyProfile from "./pages/myProfile";
 import ProfilesUsers from "./pages/profilesUsers";
+import EditProfile from "./pages/editProfile";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/auth/register" element={<UserFormRegister />} />
         <Route path="/home" element={<ProfilesUsers />} />
         <Route path="/users/:id" element={<MyProfile />} />
+        <Route path="/users/:id/edit-profile" element={<EditProfile />} />
       </Routes>
     </Router>
   );

@@ -1,16 +1,18 @@
 import link_icon from "../../assets/link_icon.svg";
 import { useState, useEffect } from "react";
 import PhotoProfile from "../../assets/images/PhotoProfile.png";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import API from "../../utils/app.js";
 import styles from "./myProfile.module.css";
 import NavMenu from "../navMenu/index.jsx";
+import { useSelector } from "react-redux";
 
 function MyProfile() {
   const [userData, setUserData] = useState(null); //Данные пользователя
   const [posts, setPosts] = useState([]); // Посты пользователя
   const { id } = useParams();
-  console.log("user id from route params:", id);
+  const userId = useSelector((state) => state.user.userId); // Получаем ID пользователя из Redux
+  // console.log("user id from route params:", id);
   useEffect(() => {
     if (!id) {
       console.error("User ID is not available.");
@@ -25,7 +27,7 @@ function MyProfile() {
           response.data.data.length > 0
         ) {
           setUserData(response.data.data[0]);
-          console.log(response.data.data[0]);
+          // console.log(response.data.data[0]);
         }
       })
       .catch((error) => {
@@ -35,7 +37,10 @@ function MyProfile() {
     // Получение данных пользователя
     API.get(`/users/${id}/posts`)
       .then((response) => {
-        setPosts(response.data);
+        if (response.data && Array.isArray(response.data.data)) {
+          setPosts(response.data.data);
+          // console.log("posts", response.data.data);
+        }
       })
       .catch((error) => {
         console.error("Ошибка при загрузке постов:", error);
@@ -48,7 +53,7 @@ function MyProfile() {
 
   return (
     <div style={{ display: "flex" }}>
-      <NavMenu />
+      <NavMenu style={{ fontWeight: "900", color: "red" }} />
       <div className={styles.profileMainContainer} style={{ padding: "20px" }}>
         <div className={styles.avatar}>
           <img
@@ -66,17 +71,12 @@ function MyProfile() {
             {/* 1 */}
             <div className={styles.nameButtonContainer}>
               <h3>{userData?.fullname || "No name provided"}</h3>
-              <button>Edit profile</button>
+              <Link to={`/users/${userId}/edit-profile`}>
+                <button>Edit profile</button>
+              </Link>
             </div>
             {/* 2 */}
-            <div
-              className={styles.postFollowContainer}
-              // style={{
-              //   display: "flex",
-              //   justifyContent: "space-between",
-              //   marginBottom: "20px",
-              // }}
-            >
+            <div className={styles.postFollowContainer}>
               <p className={styles.posts}>
                 <strong>{userData?.post_count || 129} posts</strong>
               </p>
@@ -117,8 +117,8 @@ function MyProfile() {
                 }}
               >
                 <img
-                  src={post.images[0]}
-                  alt={post.caption}
+                  src={post.images?.[0] || PhotoProfile}
+                  alt={post.caption || "No caption"}
                   style={{
                     width: "100%",
                     height: "200px",
