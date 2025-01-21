@@ -12,7 +12,7 @@ function MyProfile() {
   const [posts, setPosts] = useState([]); // Посты пользователя
   const { id } = useParams();
   const userId = useSelector((state) => state.user.userId); // Получаем ID пользователя из Redux
-  // console.log("user id from route params:", id);
+
   useEffect(() => {
     if (!id) {
       console.error("User ID is not available.");
@@ -21,29 +21,14 @@ function MyProfile() {
     // Получение данных пользователя
     API.get(`/users/${id}`)
       .then((response) => {
-        if (
-          response.data &&
-          response.data.data &&
-          response.data.data.length > 0
-        ) {
-          setUserData(response.data.data[0]);
-          // console.log(response.data.data[0]);
+        if (response.data && response.data.data) {
+          setUserData(response.data.data);
+
+          setPosts(response.data.data.posts);
         }
       })
       .catch((error) => {
         console.error("Ошибка при загрузке данных пользователя:", error);
-      });
-
-    // Получение данных пользователя
-    API.get(`/users/${id}/posts`)
-      .then((response) => {
-        if (response.data && Array.isArray(response.data.data)) {
-          setPosts(response.data.data);
-          // console.log("posts", response.data.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Ошибка при загрузке постов:", error);
       });
   }, [id]);
 
@@ -117,11 +102,11 @@ function MyProfile() {
                 }}
               >
                 <img
-                  src={post.images?.[0] || PhotoProfile}
+                  src={post.images?.[0]}
                   alt={post.caption || "No caption"}
                   style={{
-                    width: "100%",
-                    height: "200px",
+                    width: "310px",
+                    height: "310px",
                     objectFit: "cover",
                   }}
                 />

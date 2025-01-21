@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "antd";
 import styles from "./styles.module.css";
 import header from "../../assets/header.svg";
-// import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import API from "../../utils/app";
 
@@ -13,7 +13,7 @@ function UserLoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
     try {
       console.log("Form Submitted: ", data);
@@ -22,6 +22,9 @@ function UserLoginForm() {
         if (token) {
           localStorage.setItem("token", token);
           console.log("Token saved", token);
+          setTimeout(() => {
+            navigate(`/home`);
+          }, 5000);
         } else {
           console.error("Token is missing in the response");
         }
@@ -74,11 +77,11 @@ function UserLoginForm() {
               <p className={styles.error}>{errors.password.message}</p>
             )}
           </div>
-          <Link to={"/home"}>
-            <Button type="primary" htmlType="submit">
-              Log in
-            </Button>
-          </Link>
+          {/* <Link to={"/home"}> */}
+          <Button type="primary" htmlType="submit">
+            Log in
+          </Button>
+          {/* </Link> */}
         </form>
 
         <div className={styles.or}>

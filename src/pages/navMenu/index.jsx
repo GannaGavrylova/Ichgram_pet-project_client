@@ -4,13 +4,18 @@ import Notifications from "../../components/notifications";
 import styles from "./navMenu.module.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import CreatePost from "../createPost";
 
 function NavMenu() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false); // Состояние видимости уведомлений
   const userId = useSelector((state) => state.user.userId); // Получаем ID пользователя из Redux
+  const [isEditPostOpen, setIsEditPostOpen] = useState(false);
 
   const toggleNotifications = () => {
     setIsNotificationsOpen((prev) => !prev); // Переключение состояния
+  };
+  const toggleEditPost = () => {
+    setIsEditPostOpen((prev) => !prev);
   };
   return (
     <div className={styles.mainContainer}>
@@ -32,7 +37,10 @@ function NavMenu() {
             >
               Notifications
             </li>
-            <li className={styles.create}>Create</li>
+
+            <li className={styles.create} onClick={toggleEditPost}>
+              Create
+            </li>
             <li className={styles.profile}>
               {userId && (
                 <Link
@@ -59,6 +67,11 @@ function NavMenu() {
         {isNotificationsOpen && (
           <div className={styles.notificationsContainer}>
             <Notifications />
+          </div>
+        )}
+        {isEditPostOpen && (
+          <div className={styles.editPostContainer}>
+            <CreatePost onClose={toggleEditPost} />
           </div>
         )}
       </div>

@@ -5,6 +5,7 @@ import UserFormRegister from "./components/userFormRegister";
 import MyProfile from "./pages/myProfile";
 import ProfilesUsers from "./pages/profilesUsers";
 import EditProfile from "./pages/editProfile";
+import CreatePost from "./pages/createPost";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/home" element={<ProfilesUsers />} />
         <Route path="/users/:id" element={<MyProfile />} />
         <Route path="/users/:id/edit-profile" element={<EditProfile />} />
+        <Route path="/post/create-post" element={<CreatePost />} />
       </Routes>
     </Router>
   );
