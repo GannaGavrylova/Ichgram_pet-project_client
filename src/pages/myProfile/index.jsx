@@ -101,15 +101,19 @@ function MyProfile() {
                   overflow: "hidden",
                 }}
               >
-                <img
-                  src={post.images?.[0]}
-                  alt={post.caption || "No caption"}
-                  style={{
-                    width: "310px",
-                    height: "310px",
-                    objectFit: "cover",
-                  }}
-                />
+                <Link to={`/post/${post._id}`}>
+                  <img
+                    src={post.images?.[0]}
+                    alt={post.caption || "No caption"}
+                    style={{
+                      width: "310px",
+                      height: "310px",
+                      objectFit: "cover",
+                      cursor: "pointer",
+                    }}
+                  />
+                </Link>
+
                 <div
                   style={{
                     position: "absolute",
