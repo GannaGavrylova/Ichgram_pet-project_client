@@ -41,6 +41,7 @@
   justify-content: space-between;
   border: 2px solid purple;
   gap: 50px;
+  margin: 10px 0 20px;
 }
 
 p {
@@ -69,4 +70,30 @@ p {
 .postMainContainer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+}
+
+.editProfileBtn {
+  padding: 5px;
+  border-radius: 8px;
+  border: none;
+  background-color: rgb(148, 241, 210);
+  color: rgb(11, 83, 83);
+  cursor: pointer;
+}
+.userNameHeader {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.postImage {
+  width: 350px;
+  height: 310px;
+  object-fit: cover;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

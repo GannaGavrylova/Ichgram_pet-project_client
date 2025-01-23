@@ -1,7 +1,7 @@
 import styles from "./createPost.module.css";
 import React, { useState, useRef } from "react";
 import API from "../../utils/app";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import added from "../../assets/added.svg";
 
@@ -16,10 +16,11 @@ function CreatePost({ onClose }) {
 
   const fileInputRef = useRef(null);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = (newPost) => {
     setIsModalOpen(false);
     setPostData({ images: null, caption: "" });
     console.log("PostData", postData);
+    navigate(`/users/${id}`, { state: { newPost } });
   };
 
   const handleImageChange = (e) => {
@@ -49,9 +50,9 @@ function CreatePost({ onClose }) {
 
       newPost.append("caption", postData.caption);
 
-      for (let pair of newPost.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
-      }
+      // for (let pair of newPost.entries()) {
+      //   console.log(pair[0] + ": " + pair[1]);
+      // }
 
       const response = await API.post("/post", newPost, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -59,10 +60,10 @@ function CreatePost({ onClose }) {
 
       console.log("Create new Post", response.data, newPost);
 
-      handleCloseModal();
+      handleCloseModal(response.data);
       setTimeout(() => {
         onClose();
-      }, 5000);
+      }, 2000);
     } catch (error) {
       console.error("Error with create post", error);
     }
@@ -77,7 +78,10 @@ function CreatePost({ onClose }) {
           </div>
           <form className={styles.modalForm} onSubmit={handleSubmit}>
             <div className={styles.fileInputContainer}>
-              <button type="submit">Share</button>
+              <button className={styles.shareBtn} type="submit">
+                Share
+              </button>
+
               <label htmlFor="file-input" className={styles.fileLabel}>
                 <img
                   src={added}

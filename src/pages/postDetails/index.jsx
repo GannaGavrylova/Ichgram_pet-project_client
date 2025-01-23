@@ -2,16 +2,33 @@ import styles from "./postDetails.module.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import like from "../../assets/like.svg";
-import comment from "../../assets/comment.svg";
+import comments from "../../assets/comment.svg";
 import smail from "../../assets/smail.svg";
 import API from "../../utils/app.js";
+import ellipsis from "../../assets/ellipsis.svg";
+import PostActions from "../postActions/index.jsx";
 
 function PostDetails() {
   const { postId } = useParams();
-
+  const [comment, setComment] = useState("");
   const [post, setPost] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const toggleModal = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+
+  const handleInputChang = (event) => {
+    setComment(event.target.value);
+  };
+
+  const handleSendClick = () => {
+    if (comment.trim()) {
+      console.log("Senden comment: ", comment);
+      setComment("");
+    }
+  };
   useEffect(() => {
     //Получение данных поста по id
     API.get(`post/single/${postId}`)
@@ -50,45 +67,66 @@ function PostDetails() {
         </div>
         <div className={styles.postData}>
           <div className={styles.nameUser}>
-            <img src={post.profileImage} alt="ProfileImage" />
-            <p>{post.username}</p>
-            <button>x</button>
+            <img
+              className={styles.profileImage}
+              src={post.user_id.profileImage}
+              alt="ProfileImage"
+            />
+            <p>{post.user_id.username}</p>
+            <button type="button" onClick={toggleModal}>
+              <img src={ellipsis} alt="Ellipsis" />
+            </button>
+            {isModalOpen && <PostActions onClose={toggleModal} />}
           </div>
-          <div>
-            <img src={post.profileImage} alt="ProfileImage" />
-            <p>
-              <strong>Caption:</strong> {post.caption}
-            </p>
+          <div className={styles.captionPost}>
+            <img
+              className={styles.profileImage}
+              src={post.user_id.profileImage}
+              alt="ProfileImage"
+            />
+            <p>{post.user_id.username}</p>
+            <p>{post.caption}</p>
           </div>
-          <div>
-            <h3>Comment:</h3>
+          <div className={styles.commentPost}>
             {post.comments?.length > 0 ? (
               post.comments.map((comment) => (
-                <div key={comment.id}>
-                  <img src={post.profileImage} alt="ProfileImage" />
+                <div key={comment.id} className={styles.commentContainer}>
+                  <img
+                    className={styles.profileImage}
+                    src={post.user_id.profileImage}
+                    alt="ProfileImage"
+                  />
                   <p>{post.profileImage}</p>
                   <p>{post.comments}</p>
                   <img src={like} alt="like" />
                 </div>
               ))
             ) : (
-              <p>There are no comments </p>
+              <p className={styles.commentNo}>There are no comments </p>
             )}
           </div>
-          <div>
+          <div className={styles.likesContainer}>
             <div>
               <img src={like} alt="like" />
               <p>{post.likes_count}</p>
             </div>
             <div>
-              <img src={comment} alt="comment" />
+              <img src={comments} alt="comment" />
               <p>{post.comments_count}</p>
             </div>
           </div>
-          <div>
+          <div className={styles.inputComment}>
             <img src={smail} alt="smail" />
-            <input type="text" name="text" placeholder="commentar" />
-            <button>Send</button>
+            <input
+              type="text"
+              name="text"
+              placeholder="Add comment"
+              value={comment}
+              onChange={handleInputChang}
+            />
+            <button type="submit" onClick={handleSendClick}>
+              Send
+            </button>
           </div>
         </div>
       </div>

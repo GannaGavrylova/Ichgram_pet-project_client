@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./userFormRegister.module.css";
 import header from "../../assets/header.svg";
@@ -15,6 +16,8 @@ function UserFormRegister() {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(URL, data, {
@@ -22,6 +25,9 @@ function UserFormRegister() {
       });
       console.log("User successfully registered", response.data);
       reset();
+      setTimeout(() => {
+        navigate(`/home`);
+      }, 3000);
     } catch (error) {
       if (
         error.response &&

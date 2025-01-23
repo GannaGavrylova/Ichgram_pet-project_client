@@ -25,6 +25,7 @@
   padding-left: 24px;
   margin-bottom: 30px;
   text-align: start;
+  cursor: pointer;
 }
 .customList > li:last-child {
   margin-top: 47px;

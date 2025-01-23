@@ -4,7 +4,6 @@
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
 }
 
 .createButton:hover {
@@ -23,6 +22,7 @@
   align-items: center;
   z-index: 1000;
   border: 3px solid rebeccapurple;
+  cursor: pointer;
 }
 
 .modalContent {
@@ -30,6 +30,7 @@
   width: 953px;
   height: 604px;
   background-color: #fafafa;
+  border-radius: 10px;
 }
 .modalHeader {
   display: flex;
@@ -66,6 +67,7 @@
 .fileInputContainer {
   margin-top: 100px;
   text-align: center;
+  position: relative;
 }
 .fileLabel {
   cursor: pointer;
@@ -90,4 +92,15 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   resize: none;
+}
+
+.shareBtn {
+  position: absolute;
+  top: -80%;
+  right: 2%;
+  border: none;
+  background-color: transparent;
+  color: #007bff;
+  font-weight: 700;
+  cursor: pointer;
 }
