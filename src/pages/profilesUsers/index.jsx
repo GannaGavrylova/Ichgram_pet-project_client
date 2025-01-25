@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import like from "../../assets/like.svg";
 import comment from "../../assets/comment.svg";
 import styles from "./profile.module.css";
@@ -7,19 +7,28 @@ import BackgroundImages from "../../assets/images/BackgroundImages.png";
 import refresh_site from "../../assets/images/refresh_site.png";
 import NavMenu from "../navMenu";
 import API from "../../utils/app.js";
+import FollowButton from "../../components/followButton/index.jsx";
+import { Link, useNavigate } from "react-router-dom";
+import getCurrentUserId from "../../utils/getCurrentUserId.js";
 
 function ProfilesUsers() {
   const [users, setUsers] = useState([]); // Список всех пользователей
   const [page, setPage] = useState(1); // Текущая страница
   const [isLoading, setIsLoading] = useState(false); // Состояние загрузки
   const [hasMore, setHasMore] = useState(true); // Есть ли ещё страницы для загрузки
+  // const { id: targetUserId } = useParams();
+  const navigate = useNavigate();
+  const currentUserId = getCurrentUserId();
 
   useEffect(() => {
     async function fetchUsers() {
+      console.log("useEffect called with page:", page);
       setIsLoading(true);
       try {
+        console.log("FetchUsers function called");
         const response = await API.get(`/users/home?page=${page}&limit=4`);
         const newUsers = response.data;
+        console.log("NewUser :", newUsers);
 
         if (newUsers.length === 0) {
           setHasMore(false); // Если данных больше нет, остановить пагинацию
@@ -43,7 +52,7 @@ function ProfilesUsers() {
         setIsLoading(false);
       }
     }
-
+    console.log("Calling fetchUsers...");
     fetchUsers();
   }, [page]);
 
@@ -52,6 +61,23 @@ function ProfilesUsers() {
       setPage((prevPage) => prevPage + 1); // Увеличить страницу
     }
   };
+
+  const handleOpenProfile = (userId) => {
+    navigate(`/users/${userId}`);
+  };
+  const handleFollowChange = (userId, isFollowing) => {
+    console.log("handleFolloeChange called with: ", userId, isFollowing);
+    setUsers((prevUsers) => {
+      console.log("Previous users: ", prevUsers);
+      const updatedUsers = prevUsers.map((user) =>
+        user._id === userId ? { ...user, isFollowing } : user
+      );
+      console.log("Updated state:", updatedUsers);
+      return updatedUsers;
+    });
+  };
+  // console.log("handleFollowChange:", handleFollowChange);
+  console.log("Current users state: ", users);
 
   if (users.length === 0 && !isLoading) {
     return <p>Loading...</p>;
@@ -63,6 +89,7 @@ function ProfilesUsers() {
         className={styles.gridContainer}
         style={{ border: "2px solid pink" }}
       >
+        {console.log("Users in parent component:", users)}
         {users.map((user, index) => (
           <div className={styles.usersPages} key={`${user._id}-${index}`}>
             <header className={styles.header}>
@@ -75,11 +102,22 @@ function ProfilesUsers() {
                   height: "50px",
                 }}
               />
-              <h4>{user.username}</h4>
+              <button onClick={() => handleOpenProfile(user._id)}>
+                <Link to={`/users/${user._id}`}>
+                  <h4>{user.username}</h4>
+                </Link>
+              </button>
               <hr />
               <p>2 wek</p>
               <hr />
-              <button>follow</button>
+              <h3>{user.username}</h3>
+              {console.log("onFollowChange in parent:", handleFollowChange)}
+              <FollowButton
+                isInitiallyFollowing={user.isFollowing || false}
+                targetUserId={user._id}
+                onFollowChange={handleFollowChange}
+              />
+              {/* <button type="button">follow</button> */}
             </header>
 
             <main>

@@ -1,5 +1,5 @@
 import styles from "./search.module.css";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import API from "../../utils/app.js";
 import { debounce } from "lodash";
 
@@ -7,25 +7,23 @@ function Search({ onClose }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  console.log("Search", searchResults);
 
-  const debouncedSearch = useMemo(
-    () =>
-      debounce(async (query) => {
-        if (query.trim() === "") {
-          setSearchResults([]);
-          return;
-        }
-        setIsLoading(true);
-        try {
-          const response = await API.get(`/search/users?query=${query}`);
-          setSearchResults(response.data.data || []);
-        } catch (error) {
-          console.error("Error durign search:", error);
-        } finally {
-          setIsLoading(false);
-        }
-      }, 2000),
+  const debouncedSearch = useCallback(
+    debounce(async (query) => {
+      if (query.trim() === "") {
+        setSearchResults([]);
+        return;
+      }
+      setIsLoading(true);
+      try {
+        const response = await API.get(`/search/users?query=${query}`);
+        setSearchResults(response.data.data || []);
+      } catch (error) {
+        console.error("Error durign search:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 2000),
     []
   );
 
@@ -34,6 +32,7 @@ function Search({ onClose }) {
       debouncedSearch.cancel();
     };
   }, [debouncedSearch]);
+
   const handleSearch = async (e) => {
     const query = e.target.value;
     setSearchQuery(query);

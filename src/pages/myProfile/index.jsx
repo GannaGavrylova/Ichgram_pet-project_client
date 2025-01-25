@@ -69,13 +69,13 @@ function MyProfile() {
             {/* 2 */}
             <div className={styles.postFollowContainer}>
               <p className={styles.post}>
-                <strong>{userData?.post_count || 129} posts</strong>
+                <strong>{userData?.post_count || 0} posts</strong>
               </p>
               <p className={styles.followers}>
-                <strong>{userData?.followers_count || 9993} followers</strong>
+                <strong>{userData?.followers_count || 0} followers</strong>
               </p>
               <p className={styles.following}>
-                <strong>{userData?.following_count || 59} following</strong>
+                <strong>{userData?.following_count || 0} following</strong>
               </p>
             </div>
             {/* 3 */}
@@ -112,12 +112,6 @@ function MyProfile() {
                     className={styles.postImage}
                     src={post.images?.[0]}
                     alt={post.caption || "No caption"}
-                    // style={{
-                    //   width: "310px",
-                    //   height: "310px",
-                    //   objectFit: "cover",
-                    //   cursor: "pointer",
-                    // }}
                   />
                 </Link>
 

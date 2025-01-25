@@ -45,8 +45,10 @@
 
 .resultItem {
   display: flex;
+  justify-content: start;
   align-items: center;
   margin-bottom: 10px;
+  border: 2px solid blue;
 }
 
 .profileImage {
