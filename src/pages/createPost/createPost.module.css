@@ -21,12 +21,11 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  border: 3px solid rebeccapurple;
+
   cursor: pointer;
 }
 
 .modalContent {
-  border: 2px solid red;
   width: 953px;
   height: 604px;
   background-color: #fafafa;
@@ -37,7 +36,7 @@
   justify-content: space-between;
   align-items: center;
   width: 60%;
-  border: 3px solid green;
+
   margin-left: 40%;
 }
 .modalHeader > h3 {

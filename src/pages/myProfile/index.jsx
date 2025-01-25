@@ -1,6 +1,5 @@
 import link_icon from "../../assets/link_icon.svg";
 import { useState, useEffect } from "react";
-import PhotoProfile from "../../assets/images/PhotoProfile.png";
 import Seifekugel from "../../assets/images/Seifekugel.jpg";
 import { Link, useParams, useLocation } from "react-router-dom";
 import API from "../../utils/app.js";

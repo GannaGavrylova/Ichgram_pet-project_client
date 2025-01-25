@@ -6,6 +6,7 @@ import header from "../../assets/header.svg";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import API from "../../utils/app";
+import Phone from "../../assets/images/Phone.png";
 
 function UserLoginForm() {
   const {
@@ -29,10 +30,6 @@ function UserLoginForm() {
           console.error("Token is missing in the response");
         }
       });
-      // console.log("UserData: data ", data);
-      // if (response.status === 200) {
-      //   alert(`Welcome, ${response.data.username}!`);
-      // }
     } catch (error) {
       if (error.response) {
         alert(error.response.data.message);
@@ -44,67 +41,73 @@ function UserLoginForm() {
   };
 
   return (
-    <>
-      <div className={styles.containerLogForm}>
-        <header>
-          <img src={header} alt="header" />
-        </header>
-        <form className={styles.inputsForm} onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <input
-              className={styles.input}
-              type="text"
-              placeholder="Username, or email"
-              {...register("usernameOrEmail", {
-                required: "Username or Email is required",
-              })}
-            />
-            {errors.usernameOrEmail && (
-              <p className={styles.error}>{errors.usernameOrEmail.message}</p>
-            )}
-          </div>
-
-          <div>
-            <input
-              className={styles.input}
-              type="password"
-              placeholder="Password"
-              {...register("password", {
-                required: "Password is required",
-              })}
-            />
-            {errors.password && (
-              <p className={styles.error}>{errors.password.message}</p>
-            )}
-          </div>
-          {/* <Link to={"/home"}> */}
-          <Button type="primary" htmlType="submit">
-            Log in
-          </Button>
-          {/* </Link> */}
-        </form>
-
-        <div className={styles.or}>
-          <hr />
-          <h3>OR</h3>
-          <hr />
-        </div>
-        <div className={styles.forgotPassword}>
-          <a>
-            <p>Forgot password?</p>
-          </a>
-        </div>
+    <div style={{ display: "flex" }} className={styles.mainContainer}>
+      <div>
+        <img src={Phone} alt="Phone" />
       </div>
 
-      <div className={styles.signUp}>
-        <h3>
-          Don't have an account?{" "}
-          <Link to={"/auth/register"} style={{ color: "blue" }}>
-            Sign up
-          </Link>
-        </h3>
+      <div>
+        <div className={styles.containerLogForm}>
+          <header>
+            <img src={header} alt="header" />
+          </header>
+          <form className={styles.inputsForm} onSubmit={handleSubmit(onSubmit)}>
+            <div>
+              <input
+                className={styles.input}
+                type="text"
+                placeholder="Username, or email"
+                {...register("usernameOrEmail", {
+                  required: "Username or Email is required",
+                })}
+              />
+              {errors.usernameOrEmail && (
+                <p className={styles.error}>{errors.usernameOrEmail.message}</p>
+              )}
+            </div>
+
+            <div>
+              <input
+                className={styles.input}
+                type="password"
+                placeholder="Password"
+                {...register("password", {
+                  required: "Password is required",
+                })}
+              />
+              {errors.password && (
+                <p className={styles.error}>{errors.password.message}</p>
+              )}
+            </div>
+            {/* <Link to={"/home"}> */}
+            <Button type="primary" htmlType="submit">
+              Log in
+            </Button>
+            {/* </Link> */}
+          </form>
+
+          <div className={styles.or}>
+            <hr />
+            <h3>OR</h3>
+            <hr />
+          </div>
+          <div className={styles.forgotPassword}>
+            <a>
+              <p>Forgot password?</p>
+            </a>
+          </div>
+        </div>
+
+        <div className={styles.signUp}>
+          <h3>
+            Don't have an account?{" "}
+            <Link to={"/auth/register"} style={{ color: "blue" }}>
+              Sign up
+            </Link>
+          </h3>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 

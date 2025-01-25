@@ -69,11 +69,6 @@ function FollowButton({ isInitiallyFollowing, onFollowChange, targetUserId }) {
   const [isLoading, setIsLoading] = useState(false);
   const currentUserId = useSelector((state) => state.user.userId);
 
-  // console.log("Button state (isFollowing): ", isFollowing);
-  // console.log("Button state (onFollowChange): ", onFollowChange); // Это лог функции
-  // console.log("Button state (isInitiallyFollowing): ", isInitiallyFollowing);
-  // console.log("Button state (targetUserId): ", targetUserId);
-
   const handleFollowing = async () => {
     if (isLoading || isFollowing) {
       console.log("Action skipped: isLoading or isFollowing is true");
@@ -85,10 +80,8 @@ function FollowButton({ isInitiallyFollowing, onFollowChange, targetUserId }) {
       const response = await API.post(`/api/follow/${targetUserId}/follow`, {
         userId: currentUserId,
       });
-      console.log("API response:", response.data);
 
-      if (response.data.success) {
-        console.log("Follow successful. Updating state...");
+      if (!response.data.success) {
         setIsFollowing(true);
 
         if (onFollowChange) {
@@ -97,8 +90,6 @@ function FollowButton({ isInitiallyFollowing, onFollowChange, targetUserId }) {
         } else {
           console.warn("onFollowChange is undefined!");
         }
-        // onFollowChange?.(targetUserId, true); // Проверяем и вызываем onFollowChange
-        // console.log("onFollowChange: ", onFollowChange);
       }
     } catch (error) {
       console.error(
@@ -107,7 +98,6 @@ function FollowButton({ isInitiallyFollowing, onFollowChange, targetUserId }) {
       );
     } finally {
       setIsLoading(false);
-      console.log("Follow request complete. isLoading reset.");
     }
   };
 
@@ -118,7 +108,6 @@ function FollowButton({ isInitiallyFollowing, onFollowChange, targetUserId }) {
       }`}
       type="button"
       onClick={() => {
-        console.log("Button clicked");
         handleFollowing();
       }}
       disabled={isLoading || isFollowing}

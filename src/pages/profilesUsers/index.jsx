@@ -25,10 +25,8 @@ function ProfilesUsers() {
       console.log("useEffect called with page:", page);
       setIsLoading(true);
       try {
-        console.log("FetchUsers function called");
         const response = await API.get(`/users/home?page=${page}&limit=4`);
         const newUsers = response.data;
-        console.log("NewUser :", newUsers);
 
         if (newUsers.length === 0) {
           setHasMore(false); // Если данных больше нет, остановить пагинацию
@@ -62,9 +60,6 @@ function ProfilesUsers() {
     }
   };
 
-  const handleOpenProfile = (userId) => {
-    navigate(`/users/${userId}`);
-  };
   const handleFollowChange = (userId, isFollowing) => {
     console.log("handleFolloeChange called with: ", userId, isFollowing);
     setUsers((prevUsers) => {
@@ -76,19 +71,20 @@ function ProfilesUsers() {
       return updatedUsers;
     });
   };
-  // console.log("handleFollowChange:", handleFollowChange);
+
   console.log("Current users state: ", users);
+
+  const handleOpenProfile = (userId) => {
+    navigate(`/users/${userId}`);
+  };
 
   if (users.length === 0 && !isLoading) {
     return <p>Loading...</p>;
   }
   return (
-    <div style={{ display: "flex", border: "2px solid red" }}>
+    <div style={{ display: "flex" }}>
       <NavMenu />
-      <div
-        className={styles.gridContainer}
-        style={{ border: "2px solid pink" }}
-      >
+      <div className={styles.gridContainer}>
         {console.log("Users in parent component:", users)}
         {users.map((user, index) => (
           <div className={styles.usersPages} key={`${user._id}-${index}`}>
@@ -102,22 +98,26 @@ function ProfilesUsers() {
                   height: "50px",
                 }}
               />
-              <button onClick={() => handleOpenProfile(user._id)}>
-                <Link to={`/users/${user._id}`}>
-                  <h4>{user.username}</h4>
+              <button
+                className={styles.nameBtn}
+                onClick={() => handleOpenProfile(user._id)}
+              >
+                <Link
+                  to={`/users/${user._id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <h4 className={styles.nameUser}>{user.username}</h4>
                 </Link>
               </button>
               <hr />
               <p>2 wek</p>
               <hr />
-              <h3>{user.username}</h3>
-              {console.log("onFollowChange in parent:", handleFollowChange)}
+
               <FollowButton
                 isInitiallyFollowing={user.isFollowing || false}
                 targetUserId={user._id}
                 onFollowChange={handleFollowChange}
               />
-              {/* <button type="button">follow</button> */}
             </header>
 
             <main>
@@ -125,6 +125,7 @@ function ProfilesUsers() {
                 <img
                   src={(user.images && user.images[0]) || BackgroundImages}
                   alt="Post"
+                  style={{ width: "100%" }}
                 />
               </section>
               <section>
@@ -158,8 +159,6 @@ function ProfilesUsers() {
             <button onClick={loadMoreUsers} disabled={isLoading}>
               <img src={refresh_site} alt="Pagination" />
             </button>
-            {/* <h3>You've seen all the updates</h3>
-            <p>You have viewed all new publications</p> */}
           </div>
         )}
 

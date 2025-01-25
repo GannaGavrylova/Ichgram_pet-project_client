@@ -50,10 +50,6 @@ function CreatePost({ onClose }) {
 
       newPost.append("caption", postData.caption);
 
-      // for (let pair of newPost.entries()) {
-      //   console.log(pair[0] + ": " + pair[1]);
-      // }
-
       const response = await API.post("/post", newPost, {
         headers: { "Content-Type": "multipart/form-data" },
       });

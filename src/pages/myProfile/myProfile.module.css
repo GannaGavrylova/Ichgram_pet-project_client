@@ -1,10 +1,9 @@
 .profileMainContainer {
-  border: 2px solid blue;
+  border: 2px solid rgb(230, 230, 249);
   max-width: 1196px;
 }
 
 .avatar {
-  border: 2px solid green;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,12 +13,10 @@
   margin: 62px 95px 87px 66px;
 }
 .dataUserAndPostsContainer {
-  border: 2px solid rgb(243, 231, 11);
   padding: 20px 50px 20px 5px;
 }
 
 .nameButtonContainer {
-  border: 2px solid salmon;
   display: flex;
   justify-content: start;
   align-items: center;
@@ -39,7 +36,7 @@
 .postFollowContainer {
   display: flex;
   justify-content: space-between;
-  border: 2px solid purple;
+
   gap: 50px;
   margin: 10px 0 20px;
 }

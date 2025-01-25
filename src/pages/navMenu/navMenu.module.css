@@ -3,12 +3,10 @@
   width: 245px;
 }
 .leftContainer {
-  /* width: 245px; */
   min-height: 1758px;
   border-right: 1px solid #dbdbdb;
   margin-left: 25px;
   padding-right: 80px;
-  /* border: 2px solid pink; */
 }
 .headerImg {
   width: 97px;
@@ -45,6 +43,9 @@
 
 .customList > li.home::before {
   background-image: url("../../assets/home.svg");
+}
+.customList > li.homeBlack::before {
+  background-image: url("../../assets/homeBlack.svg");
 }
 
 .customList > li.search::before {

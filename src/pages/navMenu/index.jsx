@@ -4,14 +4,16 @@ import Notifications from "../../components/notifications";
 import CreatePost from "../createPost";
 import Search from "../../components/search";
 import styles from "./navMenu.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import homeBlack from "../../assets/homeBlack.svg";
 
 function NavMenu() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false); // Состояние видимости уведомлений
   const userId = useSelector((state) => state.user.userId); // Получаем ID пользователя из Redux
   const [isEditPostOpen, setIsEditPostOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleNotifications = () => {
     setIsNotificationsOpen((prev) => !prev); // Переключение состояния
@@ -20,6 +22,14 @@ function NavMenu() {
     setIsEditPostOpen((prev) => !prev);
   };
   const toggleSearch = () => setIsSearchOpen((prev) => !prev);
+
+  const toggleHome = () => {
+    navigate("/home");
+  };
+
+  const toggleExplore = () => {
+    navigate("/explore");
+  };
   return (
     <div className={styles.mainContainer}>
       <div className={styles.leftContainer}>
@@ -28,11 +38,30 @@ function NavMenu() {
         </header>
         <nav>
           <ul className={styles.customList}>
-            <li className={styles.home}>Home</li>
+            <li
+              className={`${styles.home} ${
+                window.location.pathname === "/home" ? styles.homeBlack : ""
+              }`}
+              onClick={toggleHome}
+              style={{
+                fontWeight:
+                  window.location.pathname === "/home" ? "900" : "normal",
+
+                color: "black",
+                textDecoration: "none",
+              }}
+            >
+              Home
+            </li>
+
             <li className={styles.search} onClick={toggleSearch}>
               Search
             </li>
-            <li className={styles.explore}>Explore</li>
+
+            <li className={styles.explore} onClick={toggleExplore}>
+              Explore
+            </li>
+
             <li className={styles.messages}>Messages</li>
             <li
               className={`${styles.notifications} ${

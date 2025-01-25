@@ -29,6 +29,24 @@ function OtherProfile() {
         console.error("Error loading user data", error);
       });
   }, [targetUserId]);
+
+  const handleFollowChange = (userId, isFollowing) => {
+    console.log(
+      "Follow state changed for user: ",
+      userId,
+      "isFollowing: ",
+      isFollowing
+    );
+    // Обновляем состояние userData
+    setUserData((prevData) => ({
+      ...prevData,
+      isFollowing: isFollowing,
+      followers_count: isFollowing
+        ? (prevData.followers_count || 0) + 1
+        : (prevData.followers_count || 1) - 1,
+    }));
+  };
+
   if (!targetUserId) {
     return <p>Error: Target user ID is not available </p>;
   }
@@ -84,6 +102,7 @@ function OtherProfile() {
               <FollowButton
                 isInitiallyFollowing={userData?.isFollowing || false}
                 targetUserId={targetUserId}
+                onFollowChange={handleFollowChange}
               />
             </div>
             {/* {2} */}
@@ -111,7 +130,7 @@ function OtherProfile() {
         {/* POST */}
 
         <div className={styles.postMainContainer}>
-          {posts.length > 0 ? (
+          {Array.isArray(posts) && posts.length > 0 ? (
             posts.map((post) => (
               <div className={styles.posts} key={post._id}>
                 <Link to={`/post/${post._id}`}>

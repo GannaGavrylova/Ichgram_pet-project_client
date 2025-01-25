@@ -1,5 +1,4 @@
 .notificationContainer {
-  border: 2px solid turquoise;
   padding: 30px 20px;
   height: 100%;
   position: fixed;
@@ -33,6 +32,4 @@
 .contentNotifications > h2,
 h4 {
   margin-bottom: 20px;
-}
-.notificationItem {
 }
