@@ -3,15 +3,17 @@ import { useEffect, useState } from "react";
 import API from "../../utils/app.js";
 import post_2 from "../../assets/images/post_2.png";
 import NavMenu from "../navMenu/index.jsx";
+import { useNavigate } from "react-router-dom";
 
 function Explore() {
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchRandomUsers() {
       try {
         const response = await API.get("/users/explore");
-        console.log(response.data.data);
+
         setUsers(response.data.data || []);
       } catch (error) {
         console.error("Error fetching random users: ", error);
@@ -21,14 +23,16 @@ function Explore() {
     fetchRandomUsers();
   }, []);
 
+  const handleOpenPost = (postId) => {
+    navigate(`/post/${postId}`);
+  };
+
   return (
     <div style={{ display: "flex" }}>
       <div>
         <NavMenu />
       </div>
       <div className={styles.postsContainer}>
-        {console.log("User.Images:", users.images)}
-
         {users.length > 0 ? (
           users.map((user, index) => (
             <div key={`${user._id}-${index}`} className={styles.imageContainer}>
@@ -46,6 +50,7 @@ function Explore() {
                         width: "100%",
                         height: "350px",
                       }}
+                      onClick={() => handleOpenPost(post._id)}
                     />
                   </section>
                 ))

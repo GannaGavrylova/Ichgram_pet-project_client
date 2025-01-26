@@ -27,8 +27,8 @@ function UserFormRegister() {
       console.log("User successfully registered", response.data);
       reset();
       setTimeout(() => {
-        navigate(`/home`);
-      }, 3000);
+        navigate(`/auth/login`);
+      }, 2000);
     } catch (error) {
       if (
         error.response &&

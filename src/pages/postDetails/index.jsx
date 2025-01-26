@@ -2,11 +2,15 @@ import styles from "./postDetails.module.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import like from "../../assets/like.svg";
+import likeRed from "../../assets/likeRed.svg";
 import comments from "../../assets/comment.svg";
 import smail from "../../assets/smail.svg";
 import API from "../../utils/app.js";
 import ellipsis from "../../assets/ellipsis.svg";
 import PostActions from "../postActions/index.jsx";
+import PhotoProfile from "../../assets/images/PhotoProfile.png";
+import { likePost, unLikePost } from "../../utils/likePost.js";
+import { useSelector } from "react-redux";
 
 function PostDetails() {
   const { postId } = useParams();
@@ -14,6 +18,8 @@ function PostDetails() {
   const [post, setPost] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const currentUserId = useSelector((state) => state.user.userId);
 
   const toggleModal = () => {
     setIsModalOpen((prev) => !prev);
@@ -25,7 +31,6 @@ function PostDetails() {
 
   const handleSendClick = () => {
     if (comment.trim()) {
-      console.log("Senden comment: ", comment);
       setComment("");
     }
   };
@@ -33,10 +38,8 @@ function PostDetails() {
     //Получение данных поста по id
     API.get(`post/single/${postId}`)
       .then((response) => {
-        console.log("REsponse Data: ", response.data);
         if (response.data && response.data.data) {
           setPost(response.data.data);
-          console.log("Data Post: ", response.data);
         }
       })
       .catch((error) => {
@@ -47,6 +50,55 @@ function PostDetails() {
       });
   }, [postId]);
 
+  const handleLike = async (postId, currentUserId) => {
+    if (!postId || !currentUserId) {
+      console.error("Post ID and User ID are required");
+      return;
+    }
+
+    try {
+      if (!isLiked) {
+        const response = await likePost(postId, currentUserId);
+        if (response.success) {
+          setIsLiked(true);
+          setPost((prevPost) => ({
+            ...prevPost,
+            lekes_count: prevPost.likes_count + 1,
+            likes: [...prevPost.likes, currentUserId],
+          }));
+        }
+      } else {
+        const response = await unLikePost(postId, currentUserId);
+        console.log("Post unliked succesfully");
+        if (response.success) {
+          setIsLiked(false);
+
+          setPost((prevPost) => ({
+            ...prevPost,
+            likes_count: prevPost.likes_count - 1,
+            likes: prevPost.likes.filter((like) => like !== currentUserId),
+          }));
+        }
+      }
+    } catch (error) {
+      console.error("Failed to like/unlike:", error.message);
+    }
+  };
+
+  // const handleUnlike = async () => {
+  //   try {
+  //     await unLikePost(postId, currentUserId);
+  //     console.log("Post unliked succesfully");
+
+  //     setPost((prevPost) => ({
+  //       ...prevPost,
+  //       likes_count: prevPost.likes_count - 1,
+  //       likes: prevPost.likes.filter((like) => like !== currentUserId),
+  //     }));
+  //   } catch (error) {
+  //     console.error("Failed to unlike: ", error.message);
+  //   }
+  // };
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -69,7 +121,7 @@ function PostDetails() {
           <div className={styles.nameUser}>
             <img
               className={styles.profileImage}
-              src={post.user_id.profileImage}
+              src={post.user_id.profileImage || PhotoProfile}
               alt="ProfileImage"
             />
             <p>{post.user_id.username}</p>
@@ -81,7 +133,7 @@ function PostDetails() {
           <div className={styles.captionPost}>
             <img
               className={styles.profileImage}
-              src={post.user_id.profileImage}
+              src={post.user_id.profileImage || PhotoProfile}
               alt="ProfileImage"
             />
             <p>{post.user_id.username}</p>
@@ -93,7 +145,7 @@ function PostDetails() {
                 <div key={comment.id} className={styles.commentContainer}>
                   <img
                     className={styles.profileImage}
-                    src={post.user_id.profileImage}
+                    src={post.user_id.profileImage || "default-image.png"}
                     alt="ProfileImage"
                   />
                   <p>{post.profileImage}</p>
@@ -107,7 +159,10 @@ function PostDetails() {
           </div>
           <div className={styles.likesContainer}>
             <div>
-              <img src={like} alt="like" />
+              <button onClick={() => handleLike(postId, currentUserId)}>
+                <img src={isLiked ? likeRed : like} alt="like" />
+              </button>
+              {/* <img src={like} alt="like" /> */}
               <p>{post.likes_count}</p>
             </div>
             <div>

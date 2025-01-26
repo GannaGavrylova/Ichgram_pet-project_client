@@ -25,7 +25,7 @@ function UserLoginForm() {
           console.log("Token saved", token);
           setTimeout(() => {
             navigate(`/home`);
-          }, 3000);
+          }, 2000);
         } else {
           console.error("Token is missing in the response");
         }

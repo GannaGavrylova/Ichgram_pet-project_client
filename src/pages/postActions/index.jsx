@@ -8,8 +8,7 @@ function PostActions({ onClose }) {
   const [isLoading, setIsLoading] = useState(false);
   const { postId } = useParams();
   const id = useSelector((state) => state.user.userId);
-  // const userId = useSelector();
-  console.log("PostId UserId", id);
+
   const navigate = useNavigate();
 
   const handlePostDelete = () => {

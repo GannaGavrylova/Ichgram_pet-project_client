@@ -95,10 +95,10 @@ function MyProfile() {
         {/* POST */}
         <div className={styles.postMainContainer}>
           {posts.length > 0 ? (
-            posts.map((post) => (
+            posts.map((post, index) => (
               <div
                 className={styles.posts}
-                key={post._id}
+                key={`${post._id}-${index}`}
                 style={{
                   position: "relative",
                   border: "1px solid #ddd",

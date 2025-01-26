@@ -10,6 +10,7 @@ import API from "../../utils/app.js";
 import FollowButton from "../../components/followButton/index.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import getCurrentUserId from "../../utils/getCurrentUserId.js";
+import { likePost } from "../../utils/likePost.js";
 
 function ProfilesUsers() {
   const [users, setUsers] = useState([]); // Список всех пользователей
@@ -22,7 +23,6 @@ function ProfilesUsers() {
 
   useEffect(() => {
     async function fetchUsers() {
-      console.log("useEffect called with page:", page);
       setIsLoading(true);
       try {
         const response = await API.get(`/users/home?page=${page}&limit=4`);
@@ -50,7 +50,7 @@ function ProfilesUsers() {
         setIsLoading(false);
       }
     }
-    console.log("Calling fetchUsers...");
+
     fetchUsers();
   }, [page]);
 
@@ -61,21 +61,29 @@ function ProfilesUsers() {
   };
 
   const handleFollowChange = (userId, isFollowing) => {
-    console.log("handleFolloeChange called with: ", userId, isFollowing);
     setUsers((prevUsers) => {
-      console.log("Previous users: ", prevUsers);
       const updatedUsers = prevUsers.map((user) =>
         user._id === userId ? { ...user, isFollowing } : user
       );
-      console.log("Updated state:", updatedUsers);
+
       return updatedUsers;
     });
   };
 
-  console.log("Current users state: ", users);
-
   const handleOpenProfile = (userId) => {
     navigate(`/users/${userId}`);
+  };
+  const handleOpenPost = (postId) => {
+    navigate(`/post/${postId}`);
+  };
+
+  const handleLike = async (postId, userId) => {
+    const result = await likePost(postId, userId);
+    if (result.success) {
+      console.log("Liked successfully!");
+    } else {
+      console.error("Failed to like:", result.message);
+    }
   };
 
   if (users.length === 0 && !isLoading) {
@@ -85,7 +93,6 @@ function ProfilesUsers() {
     <div style={{ display: "flex" }}>
       <NavMenu />
       <div className={styles.gridContainer}>
-        {console.log("Users in parent component:", users)}
         {users.map((user, index) => (
           <div className={styles.usersPages} key={`${user._id}-${index}`}>
             <header className={styles.header}>
@@ -126,11 +133,15 @@ function ProfilesUsers() {
                   src={(user.images && user.images[0]) || BackgroundImages}
                   alt="Post"
                   style={{ width: "100%" }}
+                  onClick={() => handleOpenPost(user._id)}
                 />
               </section>
               <section>
                 <div className={styles.likesIkon}>
-                  <img src={like} alt="like" />
+                  <button onClick={() => handleLike(user._id, currentUserId)}>
+                    <img src={like} alt="like" />
+                  </button>
+
                   <img src={comment} alt="comment" />
                 </div>
                 <div className={styles.commentText}>
